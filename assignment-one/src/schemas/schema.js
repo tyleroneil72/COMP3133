@@ -8,6 +8,7 @@ import {
   GraphQLID,
 } from "graphql";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 import Employee from "../models/Employee.js";
 import User from "../models/User.js";
 
@@ -39,7 +40,12 @@ const RootQuery = new GraphQLObjectType({
     searchEmployeeByEid: {
       type: EmployeeType,
       args: { id: { type: GraphQLID } },
-      resolve: (_, { id }) => Employee.findById(id),
+      resolve: (_, { id }) => {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+          throw new Error("Invalid ObjectId format");
+        }
+        return Employee.findById(id);
+      },
     },
     searchEmployeeByDesignationOrDepartment: {
       type: new GraphQLList(EmployeeType),
