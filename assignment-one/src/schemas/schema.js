@@ -7,6 +7,7 @@ import {
   GraphQLNonNull,
   GraphQLID,
 } from "graphql";
+import bcrypt from "bcryptjs";
 import Employee from "../models/Employee.js";
 import User from "../models/User.js";
 
@@ -69,9 +70,36 @@ const Mutation = new GraphQLObjectType({
         password: { type: new GraphQLNonNull(GraphQLString) },
       },
       resolve: async (_, args) => {
-        const newUser = new User(args);
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(args.password, 10);
+        const newUser = new User({
+          username: args.username,
+          email: args.email,
+          password: hashedPassword,
+        });
         await newUser.save();
         return "User created successfully!";
+      },
+    },
+    signin: {
+      type: GraphQLString,
+      args: {
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        password: { type: new GraphQLNonNull(GraphQLString) },
+      },
+      resolve: async (_, args) => {
+        const user = await User.findOne({ email: args.email });
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const isValidPassword = await bcrypt.compare(
+          args.password,
+          user.password
+        );
+        if (!isValidPassword) {
+          throw new Error("Invalid credentials");
+        }
+        return "Sign in successful!";
       },
     },
     addNewEmployee: {
