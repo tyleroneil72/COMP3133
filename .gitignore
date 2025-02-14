@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .env
+
+prompt.sh
+prompt.txt
