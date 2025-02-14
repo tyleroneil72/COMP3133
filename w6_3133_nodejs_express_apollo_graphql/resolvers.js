@@ -1,9 +1,15 @@
+const { Types } = require("mongoose");
 const Movie = require("./models/Movie");
 
 const resolvers = {
   Query: {
     getMovies: async () => await Movie.find(),
-    getMovieById: async (_, { id }) => await Movie.findById(id),
+    getMovieById: async (_, { id }) => {
+      if (!Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid Movie ID format");
+      }
+      return await Movie.findById(id);
+    },
   },
   Mutation: {
     addMovie: async (
@@ -23,6 +29,9 @@ const resolvers = {
       _,
       { id, name, director_name, production_house, release_date, rating }
     ) => {
+      if (!Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid Movie ID format");
+      }
       return await Movie.findByIdAndUpdate(
         id,
         { name, director_name, production_house, release_date, rating },
@@ -30,6 +39,9 @@ const resolvers = {
       );
     },
     deleteMovie: async (_, { id }) => {
+      if (!Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid Movie ID format");
+      }
       return await Movie.findByIdAndRemove(id);
     },
   },
