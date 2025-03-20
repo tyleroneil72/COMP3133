@@ -20,7 +20,7 @@ export class LoginComponent {
     this.authService.login(this.email, this.password).subscribe(
       (response) => {
         if (response.data.signin.token) {
-          localStorage.setItem("token", response.data.signin.token);
+          localStorage.setItem("token", response.data.signin.token || "err");
           this.router.navigate(["/employees"]); // Redirect to employees page
         }
       },

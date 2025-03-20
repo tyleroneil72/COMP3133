@@ -3,10 +3,19 @@ import { graphqlHTTP } from "express-graphql";
 import mongoose from "mongoose";
 import schema from "./schemas/schema.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
 
 // MongoDB Connection
 mongoose

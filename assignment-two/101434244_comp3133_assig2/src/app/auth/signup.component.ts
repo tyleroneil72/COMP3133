@@ -21,7 +21,7 @@ export class SignupComponent {
     this.authService.signup(this.username, this.email, this.password).subscribe(
       (response) => {
         if (response.data.signup.token) {
-          localStorage.setItem("token", response.data.signup.token);
+          localStorage.setItem("token", response.data.signup.token || "err");
           this.router.navigate(["/employees"]); // Redirect to employees page
         }
       },

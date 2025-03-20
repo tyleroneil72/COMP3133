@@ -16,12 +16,14 @@ export class AuthService {
           $email: String!
           $password: String!
         ) {
-          signup(username: $username, email: $email, password: $password) {
-            token
-          }
+          signup(username: $username, email: $email, password: $password)
         }
       `,
-      variables: { username, email, password },
+      variables: {
+        username,
+        email,
+        password,
+      },
     });
   }
 
@@ -29,12 +31,13 @@ export class AuthService {
     return this.apollo.mutate({
       mutation: gql`
         mutation Signin($email: String!, $password: String!) {
-          signin(email: $email, password: $password) {
-            token
-          }
+          signin(email: $email, password: $password)
         }
       `,
-      variables: { email, password },
+      variables: {
+        email,
+        password,
+      },
     });
   }
 }
