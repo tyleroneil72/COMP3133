@@ -2,13 +2,6 @@ body {
   background-color: #f8f9fa; /* Light gray background */
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
 .card {
   border-radius: 10px;
 }
