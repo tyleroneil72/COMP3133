@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { NgIf, NgFor, UpperCasePipe } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RemoveSpacesPipe } from "../remove-spaces.pipe";
+import { InputFormatDirective } from "../input-format.directive";
 
 import { Hero } from "../hero";
 import { HEROES } from "../mock-heroes";
@@ -11,7 +12,14 @@ import { HEROES } from "../mock-heroes";
   selector: "app-heroes",
   templateUrl: "./heroes.component.html",
   styleUrls: ["./heroes.component.css"],
-  imports: [FormsModule, NgIf, NgFor, UpperCasePipe, RemoveSpacesPipe],
+  imports: [
+    FormsModule,
+    NgIf,
+    NgFor,
+    UpperCasePipe,
+    RemoveSpacesPipe,
+    InputFormatDirective,
+  ],
 })
 export class HeroesComponent {
   heroes = HEROES;
