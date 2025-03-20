@@ -1,0 +1,7 @@
+- add delete employee
+- fix add employee
+- fix edit employee to auto fill form
+- style all views
+- make sure everything flows correctly
+- Add alerts when incorrect sign up or log in
+- deploy on render
