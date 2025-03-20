@@ -19,9 +19,10 @@ export class LoginComponent {
   login() {
     this.authService.login(this.email, this.password).subscribe(
       (response) => {
-        if (response.data.signin.token) {
-          localStorage.setItem("token", response.data.signin.token || "err");
-          this.router.navigate(["/employees"]); // Redirect to employees page
+        if (response.data.signin) {
+          console.log("Login response:", response);
+          localStorage.setItem("token", response.data.signin);
+          this.router.navigate(["/employees"]);
         }
       },
       (error) => {
