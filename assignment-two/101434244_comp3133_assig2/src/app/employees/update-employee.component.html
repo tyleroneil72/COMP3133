@@ -1,0 +1,66 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 mx-auto">
+      <div class="card shadow">
+        <div class="card-body">
+          <h3 class="text-center">Update Employee</h3>
+          <form (submit)="updateEmployee()">
+            <div class="mb-3">
+              <label class="form-label">First Name:</label>
+              <input
+                type="text"
+                [(ngModel)]="employee.first_name"
+                name="first_name"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Last Name:</label>
+              <input
+                type="text"
+                [(ngModel)]="employee.last_name"
+                name="last_name"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email:</label>
+              <input
+                type="email"
+                [(ngModel)]="employee.email"
+                name="email"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Designation:</label>
+              <input
+                type="text"
+                [(ngModel)]="employee.designation"
+                name="designation"
+                required
+                class="form-control"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Department:</label>
+              <input
+                type="text"
+                [(ngModel)]="employee.department"
+                name="department"
+                required
+                class="form-control"
+              />
+            </div>
+            <button type="submit" class="btn btn-success w-100">
+              Update Employee
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

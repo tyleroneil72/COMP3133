@@ -1,10 +1,12 @@
 import { Component } from "@angular/core";
 import { EmployeeService } from "../services/employee.service";
 import { Router } from "@angular/router";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-add-employee",
   templateUrl: "./add-employee.component.html",
+  imports: [FormsModule],
 })
 export class AddEmployeeComponent {
   employee = {

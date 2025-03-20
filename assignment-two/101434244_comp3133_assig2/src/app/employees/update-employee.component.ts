@@ -1,9 +1,24 @@
 import { Component } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-update-employee",
   templateUrl: "./update-employee.component.html",
-  styleUrls: ["./update-employee.component.css"],
   standalone: true,
+  imports: [FormsModule],
 })
-export class UpdateEmployeeComponent {}
+export class UpdateEmployeeComponent {
+  employee = {
+    first_name: "",
+    last_name: "",
+    email: "",
+    designation: "",
+    department: "",
+  };
+
+  constructor() {}
+
+  updateEmployee() {
+    console.log("Employee updated:", this.employee);
+  }
+}

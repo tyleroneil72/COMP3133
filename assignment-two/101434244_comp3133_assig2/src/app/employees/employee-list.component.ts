@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
 import { EmployeeService } from "../services/employee.service";
 
 @Component({
@@ -6,6 +8,7 @@ import { EmployeeService } from "../services/employee.service";
   templateUrl: "./employee-list.component.html",
   styleUrls: ["./employee-list.component.css"],
   standalone: true,
+  imports: [CommonModule, RouterModule],
 })
 export class EmployeeListComponent implements OnInit {
   employees: any[] = [];
