@@ -20,11 +20,11 @@ const authInterceptor = (req: any, next: any) => {
   return next(req);
 };
 
-// Corrected function to return ApolloClientOptions instead of an ApolloClient instance
 export function createApollo(): ApolloClientOptions<NormalizedCacheObject> {
   return {
     cache: new InMemoryCache(),
-    link: new HttpLink({ uri: "http://localhost:3000/graphql" }),
+    // link: new HttpLink({ uri: "http://localhost:3000/graphql" }),
+    link: new HttpLink({ uri: "https://a2-backend-fi66.onrender.com/graphql" }),
   };
 }
 
