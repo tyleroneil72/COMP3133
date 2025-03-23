@@ -28,6 +28,9 @@ export class UpdateEmployeeComponent implements OnInit {
     private router: Router
   ) {}
 
+  successMessage: string = "";
+  errorMessage: string = "";
+
   ngOnInit() {
     this.employeeId = this.route.snapshot.paramMap.get("id") || "";
     this.employeeService
@@ -40,8 +43,17 @@ export class UpdateEmployeeComponent implements OnInit {
   updateEmployee() {
     this.employeeService
       .updateEmployee(this.employeeId, this.employee)
-      .subscribe(() => {
-        this.router.navigate(["/employees"]);
-      });
+      .subscribe(
+        () => {
+          this.successMessage = "Employee updated successfully!";
+          setTimeout(() => {
+            this.router.navigate(["/employees"]);
+          }, 1500);
+        },
+        (error) => {
+          console.error("Update error:", error);
+          this.errorMessage = "Failed to update employee. Please try again.";
+        }
+      );
   }
 }
