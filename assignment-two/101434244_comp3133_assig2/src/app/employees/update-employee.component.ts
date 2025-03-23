@@ -1,14 +1,18 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { EmployeeService } from "../services/employee.service";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-update-employee",
-  templateUrl: "./update-employee.component.html",
   standalone: true,
-  imports: [FormsModule],
+  templateUrl: "./update-employee.component.html",
+  imports: [CommonModule, FormsModule],
 })
-export class UpdateEmployeeComponent {
-  employee = {
+export class UpdateEmployeeComponent implements OnInit {
+  employeeId: string = "";
+  employee: any = {
     first_name: "",
     last_name: "",
     email: "",
@@ -16,9 +20,26 @@ export class UpdateEmployeeComponent {
     department: "",
   };
 
-  constructor() {}
+  constructor(
+    private route: ActivatedRoute,
+    private employeeService: EmployeeService,
+    private router: Router
+  ) {}
+
+  ngOnInit() {
+    this.employeeId = this.route.snapshot.paramMap.get("id") || "";
+    this.employeeService
+      .getEmployeeById(this.employeeId)
+      .subscribe((res: any) => {
+        this.employee = res.data.getEmployeeById;
+      });
+  }
 
   updateEmployee() {
-    console.log("Employee updated:", this.employee);
+    this.employeeService
+      .updateEmployee(this.employeeId, this.employee)
+      .subscribe(() => {
+        this.router.navigate(["/employees"]);
+      });
   }
 }

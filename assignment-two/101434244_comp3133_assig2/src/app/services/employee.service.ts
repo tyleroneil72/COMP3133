@@ -65,4 +65,49 @@ export class EmployeeService {
       variables: { id },
     });
   }
+
+  getEmployeeById(id: string) {
+    return this.apollo.watchQuery({
+      query: gql`
+        query GetEmployeeById($id: ID!) {
+          getEmployeeById(id: $id) {
+            id
+            first_name
+            last_name
+            email
+            designation
+            department
+          }
+        }
+      `,
+      variables: { id },
+    }).valueChanges;
+  }
+
+  updateEmployee(id: string, employee: any) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation UpdateEmployeeByEid(
+          $id: ID!
+          $first_name: String
+          $last_name: String
+          $email: String
+          $designation: String
+          $department: String
+        ) {
+          updateEmployeeByEid(
+            id: $id
+            first_name: $first_name
+            last_name: $last_name
+            email: $email
+            designation: $designation
+            department: $department
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { id, ...employee },
+    });
+  }
 }

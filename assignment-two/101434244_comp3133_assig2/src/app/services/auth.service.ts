@@ -19,11 +19,7 @@ export class AuthService {
           signup(username: $username, email: $email, password: $password)
         }
       `,
-      variables: {
-        username,
-        email,
-        password,
-      },
+      variables: { username, email, password },
     });
   }
 
@@ -34,10 +30,7 @@ export class AuthService {
           signin(email: $email, password: $password)
         }
       `,
-      variables: {
-        email,
-        password,
-      },
+      variables: { email, password },
     });
   }
 }
