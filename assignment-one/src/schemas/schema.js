@@ -131,11 +131,18 @@ const Mutation = new GraphQLObjectType({
         employee_photo: { type: GraphQLString },
       },
       resolve: async (_, args) => {
-        const updatedEmp = await Employee.findByIdAndUpdate(
-          args.id,
-          { ...args, updated_at: new Date() },
-          { new: true }
+        const { id, ...updateFields } = args;
+
+        Object.keys(updateFields).forEach(
+          (key) => updateFields[key] === undefined && delete updateFields[key]
         );
+
+        updateFields.updated_at = new Date();
+
+        const updatedEmp = await Employee.findByIdAndUpdate(id, updateFields, {
+          new: true,
+        });
+
         if (!updatedEmp) throw new Error("Employee not found");
         return updatedEmp;
       },

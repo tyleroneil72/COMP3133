@@ -21,6 +21,7 @@ export class AddEmployeeComponent {
     salary: 0,
     date_of_joining: "",
     department: "",
+    gender: "",
   };
 
   successMessage: string = "";

@@ -20,7 +20,13 @@ export class UpdateEmployeeComponent implements OnInit {
     email: "",
     designation: "",
     department: "",
+    salary: 0,
+    date_of_joining: "",
+    gender: "",
   };
+
+  successMessage: string = "";
+  errorMessage: string = "";
 
   constructor(
     private route: ActivatedRoute,
@@ -28,15 +34,26 @@ export class UpdateEmployeeComponent implements OnInit {
     private router: Router
   ) {}
 
-  successMessage: string = "";
-  errorMessage: string = "";
-
   ngOnInit() {
     this.employeeId = this.route.snapshot.paramMap.get("id") || "";
     this.employeeService
       .getEmployeeById(this.employeeId)
       .subscribe((res: any) => {
-        this.employee = res.data.getEmployeeById;
+        this.employee = { ...res.data.getEmployeeById };
+        console.log(this.employee);
+        console.log(
+          "RAW DATE FROM BACKEND:",
+          res.data.getEmployeeById.date_of_joining
+        );
+
+        const rawDate = this.employee.date_of_joining;
+
+        if (rawDate && !isNaN(rawDate)) {
+          const dateObj = new Date(Number(rawDate));
+          this.employee.date_of_joining = dateObj.toISOString().split("T")[0];
+        } else {
+          this.employee.date_of_joining = "";
+        }
       });
   }
 
@@ -46,6 +63,8 @@ export class UpdateEmployeeComponent implements OnInit {
       .subscribe(
         () => {
           this.successMessage = "Employee updated successfully!";
+          console.log("Sending update:", this.employee);
+
           setTimeout(() => {
             this.router.navigate(["/employees"]);
           }, 1500);

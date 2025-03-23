@@ -35,6 +35,7 @@ export class EmployeeService {
           $salary: Float!
           $date_of_joining: String!
           $department: String!
+          $gender: String
         ) {
           addNewEmployee(
             first_name: $first_name
@@ -44,6 +45,7 @@ export class EmployeeService {
             salary: $salary
             date_of_joining: $date_of_joining
             department: $department
+            gender: $gender
           ) {
             id
             first_name
@@ -77,6 +79,9 @@ export class EmployeeService {
             email
             designation
             department
+            salary
+            gender
+            date_of_joining
           }
         }
       `,
@@ -94,6 +99,9 @@ export class EmployeeService {
           $email: String
           $designation: String
           $department: String
+          $salary: Float
+          $date_of_joining: String
+          $gender: String
         ) {
           updateEmployeeByEid(
             id: $id
@@ -102,6 +110,9 @@ export class EmployeeService {
             email: $email
             designation: $designation
             department: $department
+            salary: $salary
+            date_of_joining: $date_of_joining
+            gender: $gender
           ) {
             id
           }
