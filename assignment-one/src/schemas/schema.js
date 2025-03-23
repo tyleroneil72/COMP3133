@@ -37,6 +37,13 @@ const RootQuery = new GraphQLObjectType({
       type: new GraphQLList(EmployeeType),
       resolve: () => Employee.find(),
     },
+    getEmployeeById: {
+      type: EmployeeType,
+      args: { id: { type: GraphQLID } },
+      resolve: async (_, { id }) => {
+        return await Employee.findById(id);
+      },
+    },
   },
 });
 
@@ -45,7 +52,7 @@ const Mutation = new GraphQLObjectType({
   name: "Mutation",
   fields: {
     signup: {
-      type: GraphQLString, // ✅ Return a simple string
+      type: GraphQLString,
       args: {
         username: { type: new GraphQLNonNull(GraphQLString) },
         email: { type: new GraphQLNonNull(GraphQLString) },
@@ -57,7 +64,6 @@ const Mutation = new GraphQLObjectType({
           throw new Error("Email already in use");
         }
 
-        // Hash the password before saving
         const hashedPassword = await bcrypt.hash(args.password, 10);
         const newUser = new User({
           username: args.username,
@@ -70,7 +76,7 @@ const Mutation = new GraphQLObjectType({
       },
     },
     signin: {
-      type: GraphQLString, // ✅ Return a simple string
+      type: GraphQLString,
       args: {
         email: { type: new GraphQLNonNull(GraphQLString) },
         password: { type: new GraphQLNonNull(GraphQLString) },
@@ -90,6 +96,59 @@ const Mutation = new GraphQLObjectType({
         }
 
         return "Signed In";
+      },
+    },
+    addNewEmployee: {
+      type: EmployeeType,
+      args: {
+        first_name: { type: new GraphQLNonNull(GraphQLString) },
+        last_name: { type: new GraphQLNonNull(GraphQLString) },
+        email: { type: new GraphQLNonNull(GraphQLString) },
+        gender: { type: GraphQLString },
+        designation: { type: new GraphQLNonNull(GraphQLString) },
+        salary: { type: new GraphQLNonNull(GraphQLFloat) },
+        date_of_joining: { type: new GraphQLNonNull(GraphQLString) },
+        department: { type: new GraphQLNonNull(GraphQLString) },
+        employee_photo: { type: GraphQLString },
+      },
+      resolve: async (_, args) => {
+        const newEmp = new Employee(args);
+        return await newEmp.save();
+      },
+    },
+    updateEmployeeByEid: {
+      type: EmployeeType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+        first_name: { type: GraphQLString },
+        last_name: { type: GraphQLString },
+        email: { type: GraphQLString },
+        gender: { type: GraphQLString },
+        designation: { type: GraphQLString },
+        salary: { type: GraphQLFloat },
+        date_of_joining: { type: GraphQLString },
+        department: { type: GraphQLString },
+        employee_photo: { type: GraphQLString },
+      },
+      resolve: async (_, args) => {
+        const updatedEmp = await Employee.findByIdAndUpdate(
+          args.id,
+          { ...args, updated_at: new Date() },
+          { new: true }
+        );
+        if (!updatedEmp) throw new Error("Employee not found");
+        return updatedEmp;
+      },
+    },
+    deleteEmployeeByEid: {
+      type: GraphQLString,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLID) },
+      },
+      resolve: async (_, { id }) => {
+        const emp = await Employee.findByIdAndDelete(id);
+        if (!emp) throw new Error("Employee not found");
+        return "Employee deleted successfully!";
       },
     },
   },
