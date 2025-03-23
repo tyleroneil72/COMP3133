@@ -48,12 +48,26 @@ export class EmployeeService {
             gender: $gender
           ) {
             id
-            first_name
-            last_name
           }
         }
       `,
       variables: employee,
+      refetchQueries: [
+        {
+          query: gql`
+            query {
+              getAllEmployees {
+                id
+                first_name
+                last_name
+                email
+                designation
+                department
+              }
+            }
+          `,
+        },
+      ],
     });
   }
 
@@ -119,6 +133,22 @@ export class EmployeeService {
         }
       `,
       variables: { id, ...employee },
+      refetchQueries: [
+        {
+          query: gql`
+            query {
+              getAllEmployees {
+                id
+                first_name
+                last_name
+                email
+                designation
+                department
+              }
+            }
+          `,
+        },
+      ],
     });
   }
 }
