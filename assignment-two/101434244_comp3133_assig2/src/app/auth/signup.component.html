@@ -4,6 +4,9 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <h2 class="text-center mb-4">Sign Up</h2>
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
+          </div>
           <form (submit)="signup()">
             <div class="mb-3">
               <label class="form-label">Username:</label>
@@ -37,6 +40,12 @@
             </div>
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
           </form>
+          <div class="text-center mt-3">
+            <p>Already have an account?</p>
+            <a routerLink="/login" class="btn btn-outline-secondary"
+              >Go to Login</a
+            >
+          </div>
         </div>
       </div>
     </div>

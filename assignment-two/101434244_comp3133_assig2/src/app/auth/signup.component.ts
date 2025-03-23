@@ -1,12 +1,14 @@
 import { Component } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-signup",
   standalone: true,
-  imports: [FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: "./signup.component.html",
 })
 export class SignupComponent {
@@ -20,14 +22,16 @@ export class SignupComponent {
   signup() {
     this.authService.signup(this.username, this.email, this.password).subscribe(
       (response) => {
-        if (response.data.signup.token) {
-          localStorage.setItem("token", response.data.signup.token || "err");
-          this.router.navigate(["/employees"]); // Redirect to employees page
+        if (response.data.signup) {
+          localStorage.setItem("token", "temp_token");
+          this.router.navigate(["/employees"]);
+        } else {
+          this.errorMessage = "Signup failed. Please try again.";
         }
       },
       (error) => {
         console.error("Signup error:", error);
-        this.errorMessage = "Signup failed. Please try again.";
+        this.errorMessage = error?.message || "Signup failed.";
       }
     );
   }

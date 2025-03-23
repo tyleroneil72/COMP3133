@@ -3,12 +3,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { EmployeeService } from "../services/employee.service";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { NavbarComponent } from "../shared/navbar/navbar.component";
+import { RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-update-employee",
   standalone: true,
   templateUrl: "./update-employee.component.html",
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule, NavbarComponent],
 })
 export class UpdateEmployeeComponent implements OnInit {
   employeeId: string = "";
